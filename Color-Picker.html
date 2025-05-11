@@ -1,0 +1,1916 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+<meta name="author" content="usta">
+
+<title>Color Picker | USTA</title>
+<style type="text/css">
+/* Variables */
+:root {
+  --color: transparent;
+}
+/* Text Selection */
+::selection {
+	background: #292929;
+	color: yellow;
+  text-shadow: none;
+}
+/* Print Settings */
+@media print
+{
+  #menu, #menub, #lang, #mixers, #colors, #rg, #hx, #cm, #ren, #deg, #cmyk, #kay, #kaydet, #detail, .del, #up, .pb, #not {
+    display: none !important;
+  }
+  #grid {
+    position: absolute !important;
+    left: 50px !important;
+    top: 50px !important;
+    max-width: 90% !important;
+  }
+}
+/* Color */
+body {
+  background: linear-gradient(to right, rgb(255,0,0), rgb(255,255,0), rgb(0,255,0), rgb(0,255,255), rgb(0,0,255), rgb(255,0,255), rgb(255,0,0));
+  margin: 0px;
+  padding: 0px;
+  overflow-x: hidden;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-print-color-adjust:exact !important;
+  print-color-adjust: exact !important;
+  -webkit-tap-highlight-color: transparent;
+}
+
+a {
+  text-decoration: none;
+  color: white;
+  cursor: pointer;
+}
+/* App*/
+#main {
+  width: 100%;
+  text-align: center;
+  margin-bottom: 80px;
+}
+/* Menu */
+#menub {
+  position: fixed;
+  margin: 0px;
+  top: 0px;
+  left: 0px;
+  width: 60px;
+  height: 50px;
+  color: white;
+  font-size: 4em;
+  text-align: right;
+  text-shadow: 0px 0px 2px black, 0px 0px 2px black, 0px 0px 2px black, 0px 0px 2px black;
+  cursor: pointer;
+  overflow: hidden;
+  z-index: 2;
+}
+#menub:active {
+  color: darkgray;
+}
+#menu {
+  position: fixed;
+  margin: 0px;
+  top: 0px;
+  left: -450px;
+  width: 325px;
+  height: 100%;
+  background-color: rgba(0,0,0,0.9);
+  color: white;
+  box-shadow: 0px 0px 15px white;
+  overflow: hidden;
+  z-index: 1;
+  visibility: hidden;
+  transition: all 0.7s ease;
+  overflow-y: auto;
+}
+#ilk {
+  position: fixed;
+  display: none;
+  margin-top: 85px;
+  margin-left: 15px;
+  width: 230px;
+  height: 30px;
+  background-color: rgba(0,0,0,0.9);
+  color: white;
+  font-size: 1.5em;
+  text-align: center;
+  padding: 20px;
+  border: 2px solid white;
+  box-shadow: inset 3px 0px 0px white, inset -3px -5px 0px white;
+  cursor: pointer;
+  transition: all 0.1s ease;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  z-index: 2;
+}
+#ilk:active {
+  color: darkgray;
+  border: 2px solid darkgray;
+  box-shadow: inset 2px 0px 0px darkgray, inset -2px -3px 0px darkgray;
+  transform: translateY(3px);
+}
+#detay {
+  display: none;
+  text-align: left;
+  margin-top: 175px;
+  margin-left: 25px;
+  font-size: 1.2em;
+  width: 250px;
+}
+.htmls {
+  display: none;
+  margin-top: 10px;
+  margin-left: 20px;
+  width: 240px;
+  height: 50px;
+  font-size: 1.2em;
+  padding: 10px;
+  align-items: center;
+  border: 2px solid darkgray;
+  border-radius: 35px;
+  cursor: pointer;
+  -webkit-user-select: all;
+  -moz-user-select: all;
+  -ms-user-select: all;
+  user-select: all;
+}
+.htmls:hover {
+  transform: scale(1.02);
+  font-size: 1.3em;
+}
+.htmls:active {
+  transform: scale(1);
+  font-size: 1.2em;
+}
+.webs {
+  display: none;
+  margin-top: 10px;
+  margin-left: 20px;
+  width: 240px;
+  height: 50px;
+  font-size: 1.2em;
+  padding: 10px;
+  align-items: center;
+  border: 2px solid darkgray;
+  border-radius: 35px;
+  cursor: pointer;
+  -webkit-user-select: all;
+  -moz-user-select: all;
+  -ms-user-select: all;
+  user-select: all;
+}
+.webs:hover {
+  transform: scale(1.02);
+  font-size: 1.3em;
+}
+.webs:active {
+  transform: scale(1);
+  font-size: 1.2em;
+}
+#tagilk {
+  margin-top: 85px;
+}
+.tag {
+  display: block;
+  margin-left: 15px;
+  margin-top: 40px;
+  width: 230px;
+  height: 30px;
+  background-color: transparent;
+  color: white;
+  font-size: 1.5em;
+  text-align: center;
+  padding: 20px;
+  border: 2px solid white;
+  box-shadow: inset 3px 0px 0px white, inset -3px -5px 0px white;
+  cursor: pointer;
+  transition: all 0.1s ease;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.tag:active {
+  color: darkgray;
+  border: 2px solid darkgray;
+  box-shadow: inset 2px 0px 0px darkgray, inset -2px -3px 0px darkgray;
+  transform: translateY(3px);
+}
+/* Languages */
+#lang {
+  position: fixed;
+  top: 25px;
+  right: 45px;
+  width: 120px;
+  height: 25px;
+  text-align: center;
+  padding: 3px;
+  border: none;
+  border-radius: 8px;
+  background-color: rgba(255,255,255,0.6);
+  box-shadow: 1px 1px 5px black;
+  cursor: pointer;
+  z-index: 2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+/* Color Mixer */
+#mixers {
+  -webkit-appearance: none;
+  background: linear-gradient(to right, rgb(255,0,0), rgb(255,255,0), rgb(0,255,0), rgb(0,255,255), rgb(0,0,255), rgb(255,0,255), rgb(255,0,0));
+  width: 300px;
+  height: 35px;
+  margin-top: 78px;
+  cursor: ew-resize;
+  box-shadow: 2px 2px 10px black;
+}
+#mixers::-moz-range-thumb {
+  width: 8px;
+  height: 50px;
+  border: 2px solid white;
+  box-shadow: 0px 0px 5px black, 0px 0px 5px black;
+  cursor: ew-resize;
+  background: var(--color);
+}
+/* Color Picker */
+#colors {
+  display: inline-flex;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  width: 300px;
+  height: 300px;
+  border: 1px solid white;
+  box-shadow: 2px 2px 10px black;
+  cursor: crosshair;
+  background: linear-gradient(to top, rgba(0,0,0,1), rgba(0,0,0,0)), linear-gradient(to right, rgba(255,255,255,1), rgba(255,255,255,0));
+}
+#secilen {
+  border: 2px solid white;
+  border-radius: 100%;
+  width: 14px;
+  height: 14px;
+  box-shadow: 0px 0px 5px black, 0px 0px 5px black;
+  cursor: crosshair;
+  background: linear-gradient(to top, rgb(255,0,0), rgb(255,0,0), rgb(0,255,0), rgb(0,0,255), rgb(255,0,255), rgb(255,0,255));
+  position: relative;
+  left: 291px;
+  top: -9px;
+}
+/* Rgb-Hex Labels */
+#rg {
+  margin: 58px;
+  font-size: 1.2em;
+  color: white;
+  cursor: pointer;
+  padding: 10px;
+  text-shadow: 2px 2px 10px black, 2px 2px 10px black, 0px 0px 5px black, 0px 0px 5px black;
+}
+#hx {
+  margin: 30px;
+  font-size: 1.2em;
+  color: white;
+  cursor: pointer;
+  padding: 10px;
+  text-shadow: 2px 2px 10px black, 2px 2px 10px black, 0px 0px 5px black, 0px 0px 5px black;
+}
+/* Rgb-Hex Inputs */
+#ren {
+  width: 173px;
+  height: 30px;
+  margin-top: -10px;
+  margin-bottom: 20px;
+  border: none;
+  outline: none;
+  font-size: 1.2em;
+  text-align: center;
+  box-shadow: 2px 2px 10px black;
+}
+#deg {
+  width: 115px;
+  height: 30px;
+  margin-top: -10px;
+  margin-bottom: 20px;
+  border: none;
+  outline: none;
+  font-size: 1.2em;
+  text-align: center;
+  box-shadow: 2px 2px 10px black;
+}
+/* Cmyk Label */
+#cm {
+  margin-right: 93px;
+  font-size: 1.2em;
+  color: white;
+  cursor: pointer;
+  padding: 10px;
+  text-shadow: 2px 2px 10px black, 2px 2px 10px black, 0px 0px 5px black, 0px 0px 5px black;
+}
+/* Change Button Save/Random */
+#kay {
+  display: inline-flex;
+  width: 25px;
+  height: 25px;
+  justify-content: center;
+  align-items: center;
+  margin-top: -7px;
+  padding: 0px;
+  border-radius: 100%;
+  font-size: 1.7em;
+  color: white;
+  cursor: pointer;
+  text-shadow: 2px 2px 10px black, 2px 2px 10px black, 0px 0px 5px black, 0px 0px 5px black;
+  transition: transform 0.7s ease;
+}
+/* Cmyk Input */
+#cmyk {
+  width: 173px;
+  height: 30px;
+  margin-top: -10px;
+  border: none;
+  outline: none;
+  font-size: 0.9em;
+  text-align: center;
+  box-shadow: 2px 2px 10px black;
+}
+/* Button For Save */
+#kaydet {
+  width: 115px;
+  height: 30px;
+  margin-top: -10px;
+  margin-bottom: 25px;
+  border: 2px solid white;
+  border-radius: 0px;
+  outline: none;
+  font-size: 1.0em;
+  text-align: center;
+  text-shadow: 2px 2px 10px black, 2px 2px 10px black, 0px 0px 5px black, 0px 0px 5px black;
+  box-shadow: 2px 2px 10px black;
+  background-color:  transparent;
+  color: white;
+  cursor: pointer;
+  transition: border-radius 0.7s ease;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+/* Color Detail */
+#detail {
+  display: inline-flex;
+  width: 300px;
+  height: 150px;
+  margin-bottom: 15px;
+  justify-content: center;
+  overflow: hidden;
+}
+#detai {
+  width: 100%;
+  height: 100%;
+}
+.det {
+  margin-top: 0px;
+  font-size: 1.17em;
+  color: white;
+  text-shadow: 0px 0px 2px black, 0px 0px 2px black, 0px 0px 2px black, 0px 0px 2px black;
+  cursor: pointer;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-user-select: all;
+  -moz-user-select: all;
+  -ms-user-select: all;
+  user-select: all;
+}
+#deta {
+  display: none;
+  margin-top: 0px;
+  font-size: 1.17em;
+  color: white;
+  text-shadow: 0px 0px 2px black, 0px 0px 2px black, 0px 0px 2px black, 0px 0px 2px black;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+/* Saved Colors */
+#grid {
+  display: inline-flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  max-width: 650px;
+}
+.div {
+  width: 160px;
+  height: 160px;
+  box-shadow: 2px 2px 10px black, 2px 2px 10px white;
+  background-color: transparent;
+}
+.div:hover {
+  transform: scale(1.03);
+}
+.del {
+  position: absolute;
+  background-color: transparent;
+  border: none;
+  outline: none;
+  text-shadow: 0px 0px 2px black, 0px 0px 2px black, 0px 0px 2px black;
+  color: white;
+  margin-left: 144px;
+  cursor: pointer;
+}
+.p {
+  display: inline-flex;
+  font-size: 0.85em;
+  text-align: center;
+  width: 160px;
+  background-color: transparent;
+  border: none;
+  outline: none;
+  text-shadow: 0px 0px 2px black, 0px 0px 2px black, 0px 0px 2px black;
+  color: white;
+  margin-top: 16px;
+}
+.pb {
+  display: inline-flex;
+  font-size: 1em;
+  text-align: center;
+  width: 160px;
+  background-color: transparent;
+  border: 1px solid white;
+  outline: none;
+  text-shadow: 0px 0px 2px black, 0px 0px 2px black, 0px 0px 2px black;
+  box-shadow: 2px 2px 10px black, 2px 2px 10px white;
+  color: white;
+  margin-top: 15px;
+  cursor: pointer;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+/* Message */
+#ortala {
+  width: 100%;
+}
+#not {
+  display: inline-flex;
+  position: fixed;
+  width: 300px;
+  height: 30px;
+  bottom: 25px;
+  background-color: rgba(0,0,0,0.7);
+  border: 2px solid white;
+  border-radius: 30px;
+  margin-left: -152px;
+  justify-content: center;
+  align-items: center;
+  visibility: hidden;
+  z-index: 2;
+}
+#mesaj {
+  color: white;
+  font-size: 1em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding: 20px;
+}
+/* Button Up */
+#up {
+  display: block;
+  position: fixed;
+  width: 35px;
+  height: 35px;
+  right: 15px;
+  bottom: 24px;
+  border-radius: 35px;
+  border: 1px solid black;
+  cursor: pointer;
+  font-size: 1.2em;
+  visibility: hidden;
+}
+#up:hover {
+  font-size: 1.3em;
+  transform: scale(1.1);
+}
+</style>
+</head>
+<body>
+<div id="main">
+  <!-- Menu -->
+  <h3 id="menub" onclick="menuFunc()">≡</h3>
+  <div id="menu">
+    <div id="ilk" onclick="startMenu()">Back</div>
+    <p id="detay"></p>
+
+    <div class="htmls" onclick="addFunc(this)" style="color: black; background-color: rgb(255,160,122);">lightsalmon</div>
+    <div class="htmls" onclick="addFunc(this)" style="color: black; background-color: rgb(255,128,114);">salmon</div>
+    <div class="htmls" onclick="addFunc(this)" style="color: black; background-color: rgb(233,150,122);">darksalmon</div>
+    <div class="htmls" onclick="addFunc(this)" style="color: black; background-color: rgb(240,128,128);">lightcoral</div>
+    <div class="htmls" onclick="addFunc(this)" style="color: white; background-color: rgb(205,92,92);">indianred</div>
+    <div class="htmls" onclick="addFunc(this)" style="color: white; background-color: rgb(220,20,60);">crimson</div>
+    <div class="htmls" onclick="addFunc(this)" style="color: white; background-color: rgb(178,34,34);">firebrick</div>
+    <div class="htmls" onclick="addFunc(this)" style="color: white; background-color: rgb(255,0,0);">red</div>
+    <div class="htmls" onclick="addFunc(this)" style="color: white; background-color: rgb(139,0,0);">darkred</div>
+    <div class="htmls" onclick="addFunc(this)" style="color: black; background-color: rgb(222,184,135);">burlywood</div>
+    <div class="htmls" onclick="addFunc(this)" style="color: black; background-color: rgb(210,180,140);">tan</div>
+    <div class="htmls" onclick="addFunc(this)" style="color: black; background-color: rgb(188,143,143);">rosybrown</div>
+    <div class="htmls" onclick="addFunc(this)" style="color: black; background-color: rgb(244,164,96);">sandybrown</div>
+    <div class="htmls" onclick="addFunc(this)" style="color: black; background-color: rgb(205,133,63);">peru</div>
+    <div class="htmls" onclick="addFunc(this)" style="color: white; background-color: rgb(210,105,30);">chocolate</div>
+    <div class="htmls" onclick="addFunc(this)" style="color: white; background-color: rgb(139,69,19);">saddlebrown</div>
+    <div class="htmls" onclick="addFunc(this)" style="color: white; background-color: rgb(160,82,45);">sienna</div>
+    <div class="htmls" onclick="addFunc(this)" style="color: white; background-color: rgb(165,42,42);">brown</div>
+    <div class="htmls" onclick="addFunc(this)" style="color: white; background-color: rgb(128,0,0);">maroon</div>
+    <div class="htmls" onclick="addFunc(this)" style="color: white; background-color: rgb(255,69,0);">orangered</div>
+    <div class="htmls" onclick="addFunc(this)" style="color: white; background-color: rgb(255,99,71);">tomato</div>
+    <div class="htmls" onclick="addFunc(this)" style="color: black; background-color: rgb(255,127,80);">coral</div>
+    <div class="htmls" onclick="addFunc(this)" style="color: black; background-color: rgb(255,140,0);">darkorange</div>
+    <div class="htmls" onclick="addFunc(this)" style="color: black; background-color: rgb(255,165,0);">orange</div>
+    <div class="htmls" onclick="addFunc(this)" style="color: white; background-color: rgb(85,107,47);">darkolivegreen</div>
+    <div class="htmls" onclick="addFunc(this)" style="color: white; background-color: rgb(128,128,0);">olive</div>
+    <div class="htmls" onclick="addFunc(this)" style="color: white; background-color: rgb(107,142,35);">olivedrab</div>
+    <div class="htmls" onclick="addFunc(this)" style="color: black; background-color: rgb(154,205,50);">yellowgreen</div>
+    <div class="htmls" onclick="addFunc(this)" style="color: black; background-color: rgb(50,205,50);">limegreen</div>
+    <div class="htmls" onclick="addFunc(this)" style="color: black; background-color: rgb(0,255,0);">lime</div>
+    <div class="htmls" onclick="addFunc(this)" style="color: black; background-color: rgb(124,252,0);">lawngreen</div>
+    <div class="htmls" onclick="addFunc(this)" style="color: black; background-color: rgb(127,255,0);">chartreuse</div>
+    <div class="htmls" onclick="addFunc(this)" style="color: black; background-color: rgb(173,255,47);">greenyellow</div>
+    <div class="htmls" onclick="addFunc(this)" style="color: black; background-color: rgb(0,255,127);">springgreen</div>
+    <div class="htmls" onclick="addFunc(this)" style="color: black; background-color: rgb(0,250,154);">mediumspringgreen</div>
+    <div class="htmls" onclick="addFunc(this)" style="color: black; background-color: rgb(144,238,144);">lightgreen</div>
+    <div class="htmls" onclick="addFunc(this)" style="color: black; background-color: rgb(152,251,152);">palegreen</div>
+    <div class="htmls" onclick="addFunc(this)" style="color: black; background-color: rgb(143,188,143);">darkseagreen</div>
+    <div class="htmls" onclick="addFunc(this)" style="color: black; background-color: rgb(102,205,170);">mediumaquamarine</div>
+    <div class="htmls" onclick="addFunc(this)" style="color: black; background-color: rgb(60,179,113);">mediumseagreen</div>
+    <div class="htmls" onclick="addFunc(this)" style="color: white; background-color: rgb(46,139,87);">seagreen</div>
+    <div class="htmls" onclick="addFunc(this)" style="color: white; background-color: rgb(34,139,34);">forestgreen</div>
+    <div class="htmls" onclick="addFunc(this)" style="color: white; background-color: rgb(0,128,0);">green</div>
+    <div class="htmls" onclick="addFunc(this)" style="color: white; background-color: rgb(0,100,0);">darkgreen</div>
+    <div class="htmls" onclick="addFunc(this)" style="color: black; background-color: rgb(176,196,222);">lightsteelblue</div>
+    <div class="htmls" onclick="addFunc(this)" style="color: black; background-color: rgb(176,224,230);">powderblue</div>
+    <div class="htmls" onclick="addFunc(this)" style="color: black; background-color: rgb(173,216,230);">lightblue</div>
+    <div class="htmls" onclick="addFunc(this)" style="color: black; background-color: rgb(135,206,235);">skyblue</div>
+    <div class="htmls" onclick="addFunc(this)" style="color: black; background-color: rgb(135,206,250);">lightskyblue</div>
+    <div class="htmls" onclick="addFunc(this)" style="color: black; background-color: rgb(0,191,255);">deepskyblue</div>
+    <div class="htmls" onclick="addFunc(this)" style="color: black; background-color: rgb(30,144,255);">dodgerblue</div>
+    <div class="htmls" onclick="addFunc(this)" style="color: black; background-color: rgb(100,149,237);">cornflowerblue</div>
+    <div class="htmls" onclick="addFunc(this)" style="color: white; background-color: rgb(70,130,180);">steelblue</div>
+    <div class="htmls" onclick="addFunc(this)" style="color: white; background-color: rgb(65,105,225);">royalblue</div>
+    <div class="htmls" onclick="addFunc(this)" style="color: white; background-color: rgb(0,0,255);">blue</div>
+    <div class="htmls" onclick="addFunc(this)" style="color: white; background-color: rgb(0,0,205);">mediumblue</div>
+    <div class="htmls" onclick="addFunc(this)" style="color: white; background-color: rgb(0,0,139);">darkblue</div>
+    <div class="htmls" onclick="addFunc(this)" style="color: white; background-color: rgb(0,0,128);">navy</div>
+    <div class="htmls" onclick="addFunc(this)" style="color: white; background-color: rgb(25,25,112);">midnightblue</div>
+    <div class="htmls" onclick="addFunc(this)" style="color: black; background-color: rgb(0,255,255);">cyan</div>
+    <div class="htmls" onclick="addFunc(this)" style="color: black; background-color: rgb(0,255,255);">aqua</div>
+    <div class="htmls" onclick="addFunc(this)" style="color: black; background-color: rgb(224,255,255);">lightcyan</div>
+    <div class="htmls" onclick="addFunc(this)" style="color: black; background-color: rgb(175,238,238);">paleturquoise</div>
+    <div class="htmls" onclick="addFunc(this)" style="color: black; background-color: rgb(127,255,212);">aquamarine</div>
+    <div class="htmls" onclick="addFunc(this)" style="color: black; background-color: rgb(64,225,208);">turquoise</div>
+    <div class="htmls" onclick="addFunc(this)" style="color: black; background-color: rgb(72,209,204);">mediumturquoise</div>
+    <div class="htmls" onclick="addFunc(this)" style="color: black; background-color: rgb(255,206,209);">darkturquoise</div>
+    <div class="htmls" onclick="addFunc(this)" style="color: black; background-color: rgb(32,178,170);">lightseagreen</div>
+    <div class="htmls" onclick="addFunc(this)" style="color: white; background-color: rgb(95,158,160);">cadetblue</div>
+    <div class="htmls" onclick="addFunc(this)" style="color: white; background-color: rgb(0,139,139);">darkcyan</div>
+    <div class="htmls" onclick="addFunc(this)" style="color: white; background-color: rgb(0,128,128);">teal</div>
+    <div class="htmls" onclick="addFunc(this)" style="color: black; background-color: rgb(230,230,250);">lavender</div>
+    <div class="htmls" onclick="addFunc(this)" style="color: black; background-color: rgb(216,191,216);">thistle</div>
+    <div class="htmls" onclick="addFunc(this)" style="color: black; background-color: rgb(221,160,221);">plum</div>
+    <div class="htmls" onclick="addFunc(this)" style="color: black; background-color: rgb(238,130,238);">violet</div>
+    <div class="htmls" onclick="addFunc(this)" style="color: black; background-color: rgb(218,112,214);">orchid</div>
+    <div class="htmls" onclick="addFunc(this)" style="color: black; background-color: rgb(255,0,255);">magenta</div>
+    <div class="htmls" onclick="addFunc(this)" style="color: black; background-color: rgb(255,0,255);">fuchsia</div>
+    <div class="htmls" onclick="addFunc(this)" style="color: white; background-color: rgb(186,85,211);">mediumorchid</div>
+    <div class="htmls" onclick="addFunc(this)" style="color: white; background-color: rgb(147,112,219);">mediumpurple</div>
+    <div class="htmls" onclick="addFunc(this)" style="color: white; background-color: rgb(138,43,226);">blueviolet</div>
+    <div class="htmls" onclick="addFunc(this)" style="color: white; background-color: rgb(148,0,211);">darkviolet</div>
+    <div class="htmls" onclick="addFunc(this)" style="color: white; background-color: rgb(153,50,204);">darkorchid</div>
+    <div class="htmls" onclick="addFunc(this)" style="color: white; background-color: rgb(139,0,139);">darkmagenta</div>
+    <div class="htmls" onclick="addFunc(this)" style="color: white; background-color: rgb(128,0,128);">purple</div>
+    <div class="htmls" onclick="addFunc(this)" style="color: white; background-color: rgb(75,0,130);">indigo</div>
+    <div class="htmls" onclick="addFunc(this)" style="color: white; background-color: rgb(72,61,139);">darkslateblue</div>
+    <div class="htmls" onclick="addFunc(this)" style="color: white; background-color: rgb(106,90,205);">slateblue</div>
+    <div class="htmls" onclick="addFunc(this)" style="color: white; background-color: rgb(123,104,238);">mediumslateblue</div>
+    <div class="htmls" onclick="addFunc(this)" style="color: black; background-color: rgb(255,192,203);">pink</div>
+    <div class="htmls" onclick="addFunc(this)" style="color: black; background-color: rgb(255,182,193);">lightpink</div>
+    <div class="htmls" onclick="addFunc(this)" style="color: black; background-color: rgb(255,105,180);">hotpink</div>
+    <div class="htmls" onclick="addFunc(this)" style="color: white; background-color: rgb(255,20,147);">deeppink</div>
+    <div class="htmls" onclick="addFunc(this)" style="color: white; background-color: rgb(219,112,147);">palevioletred</div>
+    <div class="htmls" onclick="addFunc(this)" style="color: white; background-color: rgb(199,21,133);">mediumvioletred</div>
+    <div class="htmls" onclick="addFunc(this)" style="color: black; background-color: rgb(255,255,0);">yellow</div>
+    <div class="htmls" onclick="addFunc(this)" style="color: black; background-color: rgb(255,255,224);">lightyellow</div>
+    <div class="htmls" onclick="addFunc(this)" style="color: black; background-color: rgb(255,250,205);">lemonchiffon</div>
+    <div class="htmls" onclick="addFunc(this)" style="color: black; background-color: rgb(250,250,210);">lightgoldenrodyellow</div>
+    <div class="htmls" onclick="addFunc(this)" style="color: black; background-color: rgb(255,239,213);">papayawhip</div>
+    <div class="htmls" onclick="addFunc(this)" style="color: black; background-color: rgb(255,228,181);">moccasin</div>
+    <div class="htmls" onclick="addFunc(this)" style="color: black; background-color: rgb(255,218,185);">peachpuff</div>
+    <div class="htmls" onclick="addFunc(this)" style="color: black; background-color: rgb(238,232,170);">palegoldenrod</div>
+    <div class="htmls" onclick="addFunc(this)" style="color: black; background-color: rgb(240,230,140);">khaki</div>
+    <div class="htmls" onclick="addFunc(this)" style="color: black; background-color: rgb(189,183,107);">darkkhaki</div>
+    <div class="htmls" onclick="addFunc(this)" style="color: black; background-color: rgb(255,215,0);">gold</div>
+    <div class="htmls" onclick="addFunc(this)" style="color: black; background-color: rgb(218,165,32);">goldenrod</div>
+    <div class="htmls" onclick="addFunc(this)" style="color: black; background-color: rgb(184,134,11);">darkgoldenrod</div>
+    <div class="htmls" onclick="addFunc(this)" style="color: black; background-color: rgb(220,220,220);">gainsboro</div>
+    <div class="htmls" onclick="addFunc(this)" style="color: black; background-color: rgb(211,211,211);">lightgray</div>
+    <div class="htmls" onclick="addFunc(this)" style="color: black; background-color: rgb(192,192,192);">silver</div>
+    <div class="htmls" onclick="addFunc(this)" style="color: black; background-color: rgb(169,169,169);">darkgray</div>
+    <div class="htmls" onclick="addFunc(this)" style="color: white; background-color: rgb(128,128,128);">gray</div>
+    <div class="htmls" onclick="addFunc(this)" style="color: white; background-color: rgb(105,105,105);">dimgray</div>
+    <div class="htmls" onclick="addFunc(this)" style="color: white; background-color: rgb(119,136,153);">lightslategray</div>
+    <div class="htmls" onclick="addFunc(this)" style="color: white; background-color: rgb(112,128,144);">slategray</div>
+    <div class="htmls" onclick="addFunc(this)" style="color: white; background-color: rgb(47,79,79);">darkslategray</div>
+    <div class="htmls" onclick="addFunc(this)" style="color: white; background-color: rgb(0,0,0);">black</div>
+    <div class="htmls" onclick="addFunc(this)" style="color: black; background-color: rgb(255,255,255);">white</div>
+    <div class="htmls" onclick="addFunc(this)" style="color: black; background-color: rgb(255,250,250);">snow</div>
+    <div class="htmls" onclick="addFunc(this)" style="color: black; background-color: rgb(240,255,240);">honeydew</div>
+    <div class="htmls" onclick="addFunc(this)" style="color: black; background-color: rgb(245,255,250);">mintcream</div>
+    <div class="htmls" onclick="addFunc(this)" style="color: black; background-color: rgb(240,255,255);">azure</div>
+    <div class="htmls" onclick="addFunc(this)" style="color: black; background-color: rgb(240,248,255);">aliceblue</div>
+    <div class="htmls" onclick="addFunc(this)" style="color: black; background-color: rgb(248,248,255);">ghostwhite</div>
+    <div class="htmls" onclick="addFunc(this)" style="color: black; background-color: rgb(245,245,245);">whitesmoke</div>
+    <div class="htmls" onclick="addFunc(this)" style="color: black; background-color: rgb(255,245,238);">seashell</div>
+    <div class="htmls" onclick="addFunc(this)" style="color: black; background-color: rgb(245,245,220);">beige</div>
+    <div class="htmls" onclick="addFunc(this)" style="color: black; background-color: rgb(253,245,230);">oldlace</div>
+    <div class="htmls" onclick="addFunc(this)" style="color: black; background-color: rgb(255,250,240);">floralwhite</div>
+    <div class="htmls" onclick="addFunc(this)" style="color: black; background-color: rgb(255,255,240);">ivory</div>
+    <div class="htmls" onclick="addFunc(this)" style="color: black; background-color: rgb(250,235,215);">antiquewhite</div>
+    <div class="htmls" onclick="addFunc(this)" style="color: black; background-color: rgb(250,240,230);">linen</div>
+    <div class="htmls" onclick="addFunc(this)" style="color: black; background-color: rgb(255,240,245);">lavenderblush</div>
+    <div class="htmls" onclick="addFunc(this)" style="color: black; background-color: rgb(255,228,225);">mistyrose</div>
+    <div class="htmls" onclick="addFunc(this)" style="color: black; background-color: rgb(255,248,220);">cornsilk</div>
+    <div class="htmls" onclick="addFunc(this)" style="color: black; background-color: rgb(255,235,205);">blanchedalmond</div>
+    <div class="htmls" onclick="addFunc(this)" style="color: black; background-color: rgb(255,228,196);">bisque</div>
+    <div class="htmls" onclick="addFunc(this)" style="color: black; background-color: rgb(255,222,173);">navajowhite</div>
+    <div class="htmls" onclick="addFunc(this)" style="color: black; background-color: rgb(245,222,179);">wheat</div>
+
+    <div class="webs" onclick="addFunc(this)" style="color: white; background-color: rgb(0,0,0);">black</div>
+    <div class="webs" onclick="addFunc(this)" style="color: white; background-color: rgb(0,0,51);">rgb(0,0,51)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: white; background-color: rgb(0,0,102);">rgb(0,0,102)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: white; background-color: rgb(0,0,153);">rgb(0,0,153)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: white; background-color: rgb(0,0,204);">rgb(0,0,204)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: white; background-color: rgb(0,0,255);">blue</div>
+    <div class="webs" onclick="addFunc(this)" style="color: white; background-color: rgb(0,51,0);">rgb(0,51,0)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: white; background-color: rgb(0,51,51);">rgb(0,51,51)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: white; background-color: rgb(0,51,102);">rgb(0,51,102)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: white; background-color: rgb(0,51,153);">rgb(0,51,153)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: white; background-color: rgb(0,51,204);">rgb(0,51,204)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: white; background-color: rgb(0,51,255);">rgb(0,51,255)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: white; background-color: rgb(0,102,0);">rgb(0,102,0)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: white; background-color: rgb(0,102,51);">rgb(0,102,51)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: white; background-color: rgb(0,102,102);">rgb(0,102,102)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: white; background-color: rgb(0,102,153);">rgb(0,102,153)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: white; background-color: rgb(0,102,204);">rgb(0,102,204)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: white; background-color: rgb(0,102,255);">rgb(0,102,255)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: black; background-color: rgb(0,153,0);">rgb(0,153,0)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: black; background-color: rgb(0,153,51);">rgb(0,153,51)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: black; background-color: rgb(0,153,102);">rgb(0,153,102)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: black; background-color: rgb(0,153,153);">rgb(0,153,153)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: black; background-color: rgb(0,153,204);">rgb(0,153,204)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: black; background-color: rgb(0,153,255);">rgb(0,153,255)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: black; background-color: rgb(0,204,0);">rgb(0,204,0)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: black; background-color: rgb(0,204,51);">rgb(0,204,51)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: black; background-color: rgb(0,204,102);">rgb(0,204,102)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: black; background-color: rgb(0,204,153);">rgb(0,204,153)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: black; background-color: rgb(0,204,204);">rgb(0,204,204)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: black; background-color: rgb(0,204,255);">rgb(0,204,255)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: black; background-color: rgb(0,255,0);">lime</div>
+    <div class="webs" onclick="addFunc(this)" style="color: black; background-color: rgb(0,255,51);">rgb(0,255,51)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: black; background-color: rgb(0,255,102);">rgb(0,255,102)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: black; background-color: rgb(0,255,153);">rgb(0,255,153)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: black; background-color: rgb(0,255,204);">rgb(0,255,204)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: black; background-color: rgb(0,255,255);">cyan</div>
+    <div class="webs" onclick="addFunc(this)" style="color: white; background-color: rgb(51,0,0);">rgb(51,0,0)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: white; background-color: rgb(51,0,51);">rgb(51,0,51)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: white; background-color: rgb(51,0,102);">rgb(51,0,102)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: white; background-color: rgb(51,0,153);">rgb(51,0,153)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: white; background-color: rgb(51,0,204);">rgb(51,0,204)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: white; background-color: rgb(51,0,255);">rgb(51,0,255)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: white; background-color: rgb(51,51,0);">rgb(51,51,0)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: white; background-color: rgb(51,51,51);">rgb(51,51,51)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: white; background-color: rgb(51,51,102);">rgb(51,51,102)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: white; background-color: rgb(51,51,153);">rgb(51,51,153)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: white; background-color: rgb(51,51,204);">rgb(51,51,204)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: white; background-color: rgb(51,51,255);">rgb(51,51,255)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: white; background-color: rgb(51,102,0);">rgb(51,102,0)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: white; background-color: rgb(51,102,51);">rgb(51,102,51)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: white; background-color: rgb(51,102,102);">rgb(51,102,102)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: white; background-color: rgb(51,102,153);">rgb(51,102,153)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: white; background-color: rgb(51,102,204);">rgb(51,102,204)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: white; background-color: rgb(51,102,255);">rgb(51,102,255)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: black; background-color: rgb(51,153,0);">rgb(51,153,0)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: black; background-color: rgb(51,153,51);">rgb(51,153,51)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: black; background-color: rgb(51,153,102);">rgb(51,153,102)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: black; background-color: rgb(51,153,153);">rgb(51,153,153)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: black; background-color: rgb(51,153,204);">rgb(51,153,204)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: black; background-color: rgb(51,153,255);">rgb(51,153,255)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: black; background-color: rgb(51,204,0);">rgb(51,204,0)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: black; background-color: rgb(51,204,51);">rgb(51,204,51)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: black; background-color: rgb(51,204,102);">rgb(51,204,102)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: black; background-color: rgb(51,204,153);">rgb(51,204,153)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: black; background-color: rgb(51,204,204);">rgb(51,204,204)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: black; background-color: rgb(51,204,255);">rgb(51,204,255)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: black; background-color: rgb(51,255,0);">rgb(51,255,0)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: black; background-color: rgb(51,255,51);">rgb(51,255,51)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: black; background-color: rgb(51,255,102);">rgb(51,255,102)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: black; background-color: rgb(51,255,153);">rgb(51,255,153)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: black; background-color: rgb(51,255,204);">rgb(51,255,204)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: black; background-color: rgb(51,255,255);">rgb(51,255,255)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: white; background-color: rgb(102,0,0);">rgb(102,0,0)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: white; background-color: rgb(102,0,51);">rgb(102,0,51)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: white; background-color: rgb(102,0,102);">rgb(102,0,102)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: white; background-color: rgb(102,0,153);">rgb(102,0,153)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: white; background-color: rgb(102,0,204);">rgb(102,0,204)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: white; background-color: rgb(102,0,255);">rgb(102,0,255)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: white; background-color: rgb(102,51,0);">rgb(102,51,0)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: white; background-color: rgb(102,51,51);">rgb(102,51,51)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: white; background-color: rgb(102,51,102);">rgb(102,51,102)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: white; background-color: rgb(102,51,153);">rgb(102,51,153)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: white; background-color: rgb(102,51,204);">rgb(102,51,204)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: white; background-color: rgb(102,51,255);">rgb(102,51,255)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: white; background-color: rgb(102,102,0);">rgb(102,102,0)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: white; background-color: rgb(102,102,51);">rgb(102,102,51)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: white; background-color: rgb(102,102,102);">rgb(102,102,102)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: white; background-color: rgb(102,102,153);">rgb(102,102,153)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: white; background-color: rgb(102,102,204);">rgb(102,102,204)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: white; background-color: rgb(102,102,255);">rgb(102,102,255)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: black; background-color: rgb(102,153,0);">rgb(102,153,0)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: black; background-color: rgb(102,153,51);">rgb(102,153,51)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: black; background-color: rgb(102,153,102);">rgb(102,153,102)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: black; background-color: rgb(102,153,153);">rgb(102,153,153)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: black; background-color: rgb(102,153,204);">rgb(102,153,204)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: black; background-color: rgb(102,153,255);">rgb(102,153,255)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: black; background-color: rgb(102,204,0);">rgb(102,204,0)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: black; background-color: rgb(102,204,51);">rgb(102,204,51)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: black; background-color: rgb(102,204,102);">rgb(102,204,102)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: black; background-color: rgb(102,204,153);">rgb(102,204,153)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: black; background-color: rgb(102,204,204);">rgb(102,204,204)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: black; background-color: rgb(102,204,255);">rgb(102,204,255)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: black; background-color: rgb(102,255,0);">rgb(102,255,0)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: black; background-color: rgb(102,255,51);">rgb(102,255,51)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: black; background-color: rgb(102,255,102);">rgb(102,255,102)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: black; background-color: rgb(102,255,153);">rgb(102,255,153)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: black; background-color: rgb(102,255,204);">rgb(102,255,204)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: black; background-color: rgb(102,255,255);">rgb(102,255,255)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: white; background-color: rgb(153,0,0);">rgb(153,0,0)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: white; background-color: rgb(153,0,51);">rgb(153,0,51)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: white; background-color: rgb(153,0,102);">rgb(153,0,102)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: white; background-color: rgb(153,0,153);">rgb(153,0,153)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: white; background-color: rgb(153,0,204);">rgb(153,0,204)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: white; background-color: rgb(153,0,255);">rgb(153,0,255)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: white; background-color: rgb(153,51,0);">rgb(153,51,0)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: white; background-color: rgb(153,51,51);">rgb(153,51,51)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: white; background-color: rgb(153,51,102);">rgb(153,51,102)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: white; background-color: rgb(153,51,153);">rgb(153,51,153)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: white; background-color: rgb(153,51,204);">rgb(153,51,204)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: white; background-color: rgb(153,51,255);">rgb(153,51,255)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: white; background-color: rgb(153,102,0);">rgb(153,102,0)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: white; background-color: rgb(153,102,51);">rgb(153,102,51)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: white; background-color: rgb(153,102,102);">rgb(153,102,102)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: white; background-color: rgb(153,102,153);">rgb(153,102,153)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: white; background-color: rgb(153,102,204);">rgb(153,102,204)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: white; background-color: rgb(153,102,255);">rgb(153,102,255)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: black; background-color: rgb(153,153,0);">rgb(153,153,0)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: black; background-color: rgb(153,153,51);">rgb(153,153,51)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: black; background-color: rgb(153,153,102);">rgb(153,153,102)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: black; background-color: rgb(153,153,153);">rgb(153,153,153)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: black; background-color: rgb(153,153,204);">rgb(153,153,204)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: black; background-color: rgb(153,153,255);">rgb(153,153,255)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: black; background-color: rgb(153,204,0);">rgb(153,204,0)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: black; background-color: rgb(153,204,51);">rgb(153,204,51)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: black; background-color: rgb(153,204,102);">rgb(153,204,102)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: black; background-color: rgb(153,204,153);">rgb(153,204,153)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: black; background-color: rgb(153,204,204);">rgb(153,204,204)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: black; background-color: rgb(153,204,255);">rgb(153,204,255)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: black; background-color: rgb(153,255,0);">rgb(153,255,0)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: black; background-color: rgb(153,255,51);">rgb(153,255,51)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: black; background-color: rgb(153,255,102);">rgb(153,255,102)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: black; background-color: rgb(153,255,153);">rgb(153,255,153)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: black; background-color: rgb(153,255,204);">rgb(153,255,204)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: black; background-color: rgb(153,255,255);">rgb(153,255,255)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: white; background-color: rgb(204,0,0);">rgb(204,0,0)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: white; background-color: rgb(204,0,51);">rgb(204,0,51)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: white; background-color: rgb(204,0,102);">rgb(204,0,102)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: white; background-color: rgb(204,0,153);">rgb(204,0,153)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: white; background-color: rgb(204,0,204);">rgb(204,0,204)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: white; background-color: rgb(204,0,255);">rgb(204,0,255)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: white; background-color: rgb(204,51,0);">rgb(204,51,0)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: white; background-color: rgb(204,51,51);">rgb(204,51,51)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: white; background-color: rgb(204,51,102);">rgb(204,51,102)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: white; background-color: rgb(204,51,153);">rgb(204,51,153)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: white; background-color: rgb(204,51,204);">rgb(204,51,204)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: white; background-color: rgb(204,51,255);">rgb(204,51,255)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: white; background-color: rgb(204,102,0);">rgb(204,102,0)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: white; background-color: rgb(204,102,51);">rgb(204,102,51)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: white; background-color: rgb(204,102,102);">rgb(204,102,102)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: white; background-color: rgb(204,102,153);">rgb(204,102,153)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: white; background-color: rgb(204,102,204);">rgb(204,102,204)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: white; background-color: rgb(204,102,255);">rgb(204,102,255)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: black; background-color: rgb(204,153,0);">rgb(204,153,0)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: black; background-color: rgb(204,153,51);">rgb(204,153,51)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: black; background-color: rgb(204,153,102);">rgb(204,153,102)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: black; background-color: rgb(204,153,153);">rgb(204,153,153)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: black; background-color: rgb(204,153,204);">rgb(204,153,204)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: black; background-color: rgb(204,153,255);">rgb(204,153,255)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: black; background-color: rgb(204,204,0);">rgb(204,204,0)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: black; background-color: rgb(204,204,51);">rgb(204,204,51)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: black; background-color: rgb(204,204,102);">rgb(204,204,102)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: black; background-color: rgb(204,204,153);">rgb(204,204,153)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: black; background-color: rgb(204,204,204);">rgb(204,204,204)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: black; background-color: rgb(204,204,255);">rgb(204,204,255)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: black; background-color: rgb(204,255,0);">rgb(204,255,0)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: black; background-color: rgb(204,255,51);">rgb(204,255,51)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: black; background-color: rgb(204,255,102);">rgb(204,255,102)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: black; background-color: rgb(204,255,153);">rgb(204,255,153)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: black; background-color: rgb(204,255,204);">rgb(204,255,204)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: black; background-color: rgb(204,255,255);">rgb(204,255,255)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: white; background-color: rgb(255,0,0);">red</div>
+    <div class="webs" onclick="addFunc(this)" style="color: white; background-color: rgb(255,0,51);">rgb(255,0,51)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: white; background-color: rgb(255,0,102);">rgb(255,0,102)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: white; background-color: rgb(255,0,153);">rgb(255,0,153)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: white; background-color: rgb(255,0,204);">rgb(255,0,204)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: black; background-color: rgb(255,0,255);">magenta</div>
+    <div class="webs" onclick="addFunc(this)" style="color: white; background-color: rgb(255,51,0);">rgb(255,51,0)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: white; background-color: rgb(255,51,51);">rgb(255,51,51)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: white; background-color: rgb(255,51,102);">rgb(255,51,102)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: white; background-color: rgb(255,51,153);">rgb(255,51,153)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: white; background-color: rgb(255,51,204);">rgb(255,51,204)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: white; background-color: rgb(255,51,255);">rgb(255,51,255)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: white; background-color: rgb(255,102,0);">rgb(255,102,0)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: white; background-color: rgb(255,102,51);">rgb(255,102,51)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: white; background-color: rgb(255,102,102);">rgb(255,102,102)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: white; background-color: rgb(255,102,153);">rgb(255,102,153)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: white; background-color: rgb(255,102,204);">rgb(255,102,204)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: white; background-color: rgb(255,102,255);">rgb(255,102,255)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: black; background-color: rgb(255,153,0);">rgb(255,153,0)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: black; background-color: rgb(255,153,51);">rgb(255,153,51)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: black; background-color: rgb(255,153,102);">rgb(255,153,102)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: black; background-color: rgb(255,153,153);">rgb(255,153,153)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: black; background-color: rgb(255,153,204);">rgb(255,153,204)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: black; background-color: rgb(255,153,255);">rgb(255,153,255)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: black; background-color: rgb(255,204,0);">rgb(255,204,0)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: black; background-color: rgb(255,204,51);">rgb(255,204,51)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: black; background-color: rgb(255,204,102);">rgb(255,204,102)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: black; background-color: rgb(255,204,153);">rgb(255,204,153)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: black; background-color: rgb(255,204,204);">rgb(255,204,204)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: black; background-color: rgb(255,204,255);">rgb(255,204,255)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: black; background-color: rgb(255,255,0);">yellow</div>
+    <div class="webs" onclick="addFunc(this)" style="color: black; background-color: rgb(255,255,51);">rgb(255,255,51)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: black; background-color: rgb(255,255,102);">rgb(255,255,102)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: black; background-color: rgb(255,255,153);">rgb(255,255,153)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: black; background-color: rgb(255,255,204);">rgb(255,255,204)</div>
+    <div class="webs" onclick="addFunc(this)" style="color: black; background-color: rgb(255,255,255);">white</div>
+
+    <div id="tagilk" class="tag" onclick="colorMenu()">HTML Color Names</div>
+    <div class="tag" onclick="webMenu()">Web Safe Colors</div>
+    <div class="tag" onclick="aboutMenu()">About</div>
+  </div>
+  <!-- Languages -->
+  <select id="lang" onchange="changeLang()"></select>
+  <!-- Color Mixer -->
+  <input type="range" id="mixers" min="0" max="1530" value="765" step="1"><br>
+  <!-- Color Picker -->
+  <div id="colors"><div id="secilen"></div></div><br>
+  <!-- Rgb-Hex Inputs/Outputs -->
+  <label id="rg" for="ren">RGB</label>
+  <label id="hx" for="deg">HEX</label><br><br>
+  <input type="text" id="ren" maxlength="16" placeholder="RGB">
+  <input type="text" id="deg" maxlength="7" placeholder="HEX"><br>
+  <!-- Cmyk Label -->
+  <label id="cm" for="cmyk">CMYK</label>
+  <!-- Change Button Save/Random -->
+  <label id="kay" onclick="chan()">↻</label><br><br>
+  <!-- Cmyk Inputs/Outputs -->
+  <input type="text" id="cmyk" maxlength="19" placeholder="CMYK">
+  <!-- Save/Random Button -->
+  <input type="button" id="kaydet" value="SAVE" onclick="buton()"><br>
+  <!-- Color Detail -->
+  <div id="detail"><div id="detai"><h3 id="deta"></h3></div></div><br>
+  <!-- Saved Colors -->
+  <div id="grid"></div>
+  <!-- Message -->
+  <div id="ortala"><div id="not"><h3 id="mesaj"></h3></div></div>
+  <!-- Button Up -->
+  <input type="button" id="up" value="↑" onclick="upFunc()">
+
+</div>
+
+<script>
+// Languages
+var language = 0;
+var words = {
+  en: ["English", "Color Picker", "SAVE", "RANDOM", "View", "Color Saved", "Error", "HTML Color Names", "Web Safe Colors", "About", "Back", "HTML Color Names are colors that modern web browsers can recognize when color names are written instead of color codes.", "Web Safe Colors are colors that all screens (even old ones) support.", "FOSS (free and open source software), free to use and change.", "Author", "Web Safe Color", "Selected Text Copied"],
+  tr: ["Türkçe", "Renk Seçici", "KAYDET", "RASTGELE", "Görüntüle", "Renk Kaydedildi", "Hata", "HTML Renk İsimleri", "Güvenli Web Renkleri", "Hakkında", "Geri", "HTML Renk İsimleri, renk kodları yerine renk isimleri yazıldığında modern web tarayıcıların tanıyabildiği renklerdir.", "Güvenli Web Renkleri, eski de olsa tüm ekranların desteklediği renklerdir.", "ÖAKK (özgür ve açık kaynak kodlu yazılım), özgürce kullanılabilir ve değiştirilebilir.", "Yazar", "Güvenli Web Rengi", "Seçili Metin Kopyalandı"],
+  fr: ["Français", "Sélecteur De Couleur", "SAUVEGARDER", "ALÉATOIRE", "Voir", "Couleur Enregistrée", "Erreur", "Noms De Couleurs HTML", "Couleurs Web Safe", "À Propos", "Dos", "Les Noms De Couleurs HTML sont des couleurs que les navigateurs Web modernes peuvent reconnaître lorsque les noms de couleurs sont écrits à la place des codes de couleur.", "Les Couleurs Web Safe sont des couleurs que tous les écrans (même les plus anciens) prennent en charge.", "LLOS (logiciel libre et open source), libre d'utilisation et de modification.", "Auteur", "Couleur Web Safe", "Texte Sélectionné Copié"],
+  es: ["Español", "Selector De Color", "AHORRAR", "ALEATORIO", "Vista", "Color Guardado", "Error", "Nombres De Colores HTML", "Colores Seguros Para La Web", "Acerca", "Atrás", "Los Nombres De Colores HTML son colores que los navegadores web modernos pueden reconocer cuando se escriben nombres de colores en lugar de códigos de color.", "Los Colores Seguros Para La Web son colores que todas las pantallas (incluso las antiguas) admiten.", "SLCA (software libre y de código abierto), libre de usar y modificar.", "Autor", "Color Seguro Para La Web", "Texto Seleccionado Copiado"],
+  ru: ["Русский", "Выбор цвета", "СОХРАНЯТЬ", "СЛУЧАЙНЫЙ", "Вид", "Цвет Cохранен", "Ошибка", "Названия цветов HTML", "Безопасные веб-цвета", "О программе", "Назад", "Названия цветов HTML — это цвета, которые современные веб-браузеры могут распознавать, когда вместо цветовых кодов указаны названия цветов.", "Безопасные веб-цвета — это цвета, которые поддерживают все экраны (даже старые).", "FOSS (бесплатное программное обеспечение с открытым исходным кодом), свободное для использования и изменения.", "Автор", "Безопасный веб-цвет", "Выделенный текст скопирован"],
+  zh: ["中国人", "颜色选择器", "SAVE", "随机的", "看法", "颜色已保存", "错误", "HTML 颜色名称", "Web 安全色", "关于该计划", "后退", "HTML 颜色名称是现代 Web 浏览器在用颜色名称代替颜色代码书写时可以识别的颜色。", "Web 安全色是所有屏幕（甚至旧屏幕）都支持的颜色。", "FOSS（自由开源软件），可以自由使用和更改。", "作者", "Web 安全色", "选定的文本已复制"],
+  ar: ["عربي", "اختيار الألوان", "حفظ", "عشوائي", "منظر", "تم حفظ اللون", "خطأ", "HTML أسماء الألوان", "ألوان الويب الآمنة", "حول البرنامج", "خلف", "أسماء الألوان التي يمكن لمتصفحات الويب الحديثة التعرف عليها بدلاً من رموز الألوان", "الألوان الآمنة للويب هي الألوان التي تدعمها جميع الشاشات حتى القديمة", "برمجيات مجانية ومفتوحة المصدر مجانية الاستخدام والتغيير", "مؤلف", "لون الويب آمن", "تم نسخ النص المحدد"],
+  fa: ["فارسی", "انتخابگر رنگ", "ذخیره", "تصادفی", "مشاهده", "رنگ ذخیره شده", "خطا", "HTML نام رنگ‌ها در", "رنگ‌های ایمن وب", "درباره ما", "برگشت", "این نام‌های رنگ، رنگ‌هایی هستند که مرورگرهای وب مدرن می‌توانند با تایپ نام آنها به جای کد رنگ، آنها را تشخیص دهند", "رنگ‌های ایمن وب، رنگ‌هایی هستند که همه صفحه نمایش‌ها (حتی صفحه نمایش‌های قدیمی) از آنها پشتیبانی می‌کنند", "نرم‌افزار آزاد و متن‌باز، استفاده و تغییر رایگان", "نویسنده", "رنگ ایمن وب", "متن انتخاب شده کپی شد"]
+};
+
+// Values For Range
+var mp, ml, ma, mz, mg, mb, mi, mt, mm, mrgb;
+// Rgb Values
+var r = 0;
+var g = 0;
+var b = 0;
+var a;
+var regebe;
+// Hex Values
+var hex, toR, toG, toB;
+// Cmyk Values
+var c, m, y, k;
+// Color Values
+var x, y, poX, poY, cikarma, bolme, bole;
+// Values For Save Button
+var div, pr, ph, pc, pb;
+var say = 0;
+// Values For Random Button
+var ranr, rang, ranb;
+var ran = 0;
+
+// Variables
+var time, option, pbut, tags, htmls, webs, hea;
+var derece = 0;
+var menuPage = 0;
+var hata = 0;
+
+// Values For Elements
+var main = document.getElementById("main");
+var mixer = document.getElementById("mixers");
+var color = document.getElementById("colors");
+var secilen = document.getElementById("secilen");
+var ren = document.getElementById("ren");
+var deg = document.getElementById("deg");
+var cmyk = document.getElementById("cmyk");
+var kay = document.getElementById("kay");
+var kaydet = document.getElementById("kaydet");
+var grid = document.getElementById("grid");
+var not = document.getElementById("not");
+var mesaj = document.getElementById("mesaj");
+var langu = document.getElementById("lang");
+var menu = document.getElementById("menu");
+var ilk = document.getElementById("ilk");
+var detay = document.getElementById("detay");
+var up = document.getElementById("up");
+var detai = document.getElementById("detai");
+var deta = document.getElementById("deta");
+
+// Add Languages
+for (var i = 0; i < Object.keys(words).length; i++) {
+  option = document.createElement("option");
+  option.value = i;
+  option.text = Object.values(words)[i][0];
+  langu.add(option);
+}
+langu.selectedIndex = language;
+
+// Button Up
+window.onscroll = function() {
+  if (document.body.scrollTop > 15 || document.documentElement.scrollTop > 15) {
+    up.style.visibility = "visible";
+  } else {
+    up.style.visibility = "hidden";
+  }
+}
+function upFunc() {
+  document.body.scrollTop = 0;
+  document.documentElement.scrollTop = 0;
+}
+
+// Mixer Picker
+mixer.addEventListener("input", sec, event);
+
+// Color Picker
+color.addEventListener("mousedown", function() {
+  sec(event);
+  addEventListener("mousemove", sec, event);
+});
+color.addEventListener("mouseup", function() {
+  sec(event);
+  removeEventListener("mousemove", sec, false);
+});
+addEventListener("mouseup", function() {
+  removeEventListener("mousemove", sec, false);
+});
+
+// Copy Text
+function kopyala(text) {
+    navigator.clipboard.writeText(text);
+    message(Object.values(words)[language][16]);
+}
+
+// HTML and Web Safe Color Control
+function control() {
+  deta.style.display = "none";
+  hea = document.querySelectorAll(".det");
+  for (var i = 0; i < hea.length; i++) {
+    hea[i].style.display = "none";
+  }
+
+  webs = document.querySelectorAll(".webs");
+  for (var i = 0; i < webs.length; i++) {
+    if (webs[i].style.backgroundColor.replaceAll(" ", "") == ren.value) {
+      deta.innerHTML = "<u>" + Object.values(words)[language][15] + "</u>";
+      deta.style.display = "block";
+    }
+  }
+
+  htmls = document.querySelectorAll(".htmls");
+  for (var i = 0; i < htmls.length; i++) {
+    if (htmls[i].style.backgroundColor.replaceAll(" ", "") == ren.value) {
+      hea = document.createElement("h3");
+      hea.setAttribute("class", "det");
+      hea.innerHTML = htmls[i].innerHTML;
+      hea.onclick = function() {kopyala(this.innerHTML);}
+      detai.appendChild(hea);
+    }
+  }
+}
+
+function rgbToMixer(r, g, b) {
+  regebe = "rgb(" + r + "," + g + "," + b + ")";
+  document.body.style.background = regebe;
+  secilen.style.background = regebe;
+
+  r = parseInt(r);
+  g = parseInt(g);
+  b = parseInt(b);
+
+  if (r == g && r == b) {
+    mixer.value = 0;
+    mixer.style.setProperty("--color", "rgb(255,0,0)");
+    color.style.backgroundColor = "rgb(255,0,0)";
+    bolme = 300 / 255;
+    secilen.style.left = "-9px";
+    secilen.style.top = Math.ceil(Math.abs(r - 255) * bolme - 9) + "px";
+  }
+  // r >
+  if (r > g && r > b) {
+    if (g == b) {
+      mixer.value = 0;
+      mixer.style.setProperty("--color", "rgb(255,0,0)");
+      color.style.backgroundColor = "rgb(255,0,0)";
+      bolme = 300 / 255;
+      bole = 300 / r;
+      secilen.style.left =  Math.ceil(Math.abs(g - r) * bole - 9) + "px";
+      secilen.style.top = Math.ceil(Math.abs(r - 255) * bolme - 9) + "px";
+    }
+    if (g > b) {
+      mp = b / r;
+      ml = mp * 255;
+      ma = g / r;
+      mz = ma * 255;
+      mg = 255 - mz;
+      mb = 255 - ml;
+      mi = mg / mb;
+      mt = mi * ml;
+      mixer.value = Math.round(mz - mt);
+      mrgb = "rgb(255," + mixer.value + ",0)";
+      mixer.style.setProperty("--color", mrgb);
+      color.style.backgroundColor = mrgb;
+      bolme = 300 / 255;
+      secilen.style.top = Math.round(Math.abs(r - 255) * bolme - 9) + "px";
+      bolme = 300 / r;
+      secilen.style.left = Math.round(Math.abs(b * bolme - 300) - 9) + "px";
+    }
+    if (b > g) {
+      mp = g / r;
+      ml = mp * 255;
+      ma = b / r;
+      mz = ma * 255;
+      mg = 255 - mz;
+      mb = 255 - ml;
+      mi = mg / mb;
+      mt = mi * ml;
+      mm = Math.round(mz - mt);
+      mixer.value = Math.abs(mm - 255) + 1275;
+      mrgb = "rgb(255," + "0," + mm + ")";
+      mixer.style.setProperty("--color", mrgb);
+      color.style.backgroundColor = mrgb;
+      bolme = 300 / 255;
+      secilen.style.top = Math.round(Math.abs(r - 255) * bolme - 9) + "px";
+      bolme = 300 / r;
+      secilen.style.left = Math.round(Math.abs(g * bolme - 300) - 9) + "px";
+    }
+  }
+  // g >
+  if (g > r && g > b) {
+    if (r == b) {
+      mixer.value = 510;
+      mixer.style.setProperty("--color", "rgb(0,255,0)");
+      color.style.backgroundColor = "rgb(0,255,0)";
+      bolme = 300 / 255;
+      bole = 300 / g;
+      secilen.style.left =  Math.ceil(Math.abs(r - g) * bole - 9) + "px";
+      secilen.style.top = Math.ceil(Math.abs(g - 255) * bolme - 9) + "px";
+    }
+    if (r > b) {
+      mp = b / g;
+      ml = mp * 255;
+      ma = r / g;
+      mz = ma * 255;
+      mg = 255 - mz;
+      mb = 255 - ml;
+      mi = mg / mb;
+      mt = mi * ml;
+      mm = Math.round(mz - mt);
+      mixer.value = Math.abs(mm - 255) + 255;
+      mrgb = "rgb(" + mm + ",255,0)";
+      mixer.style.setProperty("--color", mrgb);
+      color.style.backgroundColor = mrgb;
+      bolme = 300 / 255;
+      secilen.style.top = Math.round(Math.abs(g - 255) * bolme - 9) + "px";
+      bolme = 300 / g;
+      secilen.style.left = Math.round(Math.abs(b * bolme - 300) - 9) + "px";
+    }
+    if (b > r) {
+      mp = r / g;
+      ml = mp * 255;
+      ma = b / g;
+      mz = ma * 255;
+      mg = 255 - mz;
+      mb = 255 - ml;
+      mi = mg / mb;
+      mt = mi * ml;
+      mm = Math.round(mz - mt);
+      mixer.value = Math.abs(mm) + 510;
+      mrgb = "rgb(0,255," + mm + ")";
+      mixer.style.setProperty("--color", mrgb);
+      color.style.backgroundColor = mrgb;
+      bolme = 300 / 255;
+      secilen.style.top = Math.round(Math.abs(g - 255) * bolme - 9) + "px";
+      bolme = 300 / g;
+      secilen.style.left = Math.round(Math.abs(r * bolme - 300) - 9) + "px";
+    }
+  }
+  // b >
+  if (b > r && b > g) {
+    if (r == g) {
+      mixer.value = 1020;
+      mixer.style.setProperty("--color", "rgb(0,0,255)");
+      color.style.backgroundColor = "rgb(0,0,255)";
+      bolme = 300 / 255;
+      bole = 300 / b;
+      secilen.style.left =  Math.ceil(Math.abs(r - b) * bole - 9) + "px";
+      secilen.style.top = Math.ceil(Math.abs(b - 255) * bolme - 9) + "px";
+    }
+    if (r > g) {
+      mp = g / b;
+      ml = mp * 255;
+      ma = r / b;
+      mz = ma * 255;
+      mg = 255 - mz;
+      mb = 255 - ml;
+      mi = mg / mb;
+      mt = mi * ml;
+      mm = Math.round(mz - mt);
+      mixer.value = Math.abs(mm) + 1020;
+      mrgb = "rgb(" + mm + ",0,255)";
+      mixer.style.setProperty("--color", mrgb);
+      color.style.backgroundColor = mrgb;
+      bolme = 300 / 255;
+      secilen.style.top = Math.round(Math.abs(b - 255) * bolme - 9) + "px";
+      bolme = 300 / b;
+      secilen.style.left = Math.round(Math.abs(g * bolme - 300) - 9) + "px";
+    }
+    if (g > r) {
+      mp = r / b;
+      ml = mp * 255;
+      ma = g / b;
+      mz = ma * 255;
+      mg = 255 - mz;
+      mb = 255 - ml;
+      mi = mg / mb;
+      mt = mi * ml;
+      mm = Math.round(mz - mt);
+      mixer.value = Math.abs(mm - 255) + 765;
+      mrgb = "rgb(0," + mm + ",255)";
+      mixer.style.setProperty("--color", mrgb);
+      color.style.backgroundColor = mrgb;
+      bolme = 300 / 255;
+      secilen.style.top = Math.round(Math.abs(b - 255) * bolme - 9) + "px";
+      bolme = 300 / b;
+      secilen.style.left = Math.round(Math.abs(r * bolme - 300) - 9) + "px";
+    }
+  }
+  // r = g > b
+  if (r == g && r > b) {
+    mixer.value = 255;
+    mixer.style.setProperty("--color", "rgb(255,255,0)");
+    color.style.backgroundColor = "rgb(255,255,0)";
+    bolme = 300 / 255;
+    secilen.style.top = Math.ceil(Math.abs(r - 255) * bolme - 9) + "px";
+    bole = 300 / r;
+    secilen.style.left =  Math.ceil(Math.abs(r - b) * bole - 9) + "px";
+  }
+  // r = b > g
+  if (r == b && r > g) {
+    mixer.value = 1275;
+    mixer.style.setProperty("--color", "rgb(255,0,255)");
+    color.style.backgroundColor = "rgb(255,0,255)";
+    bolme = 300 / 255;
+    secilen.style.top = Math.ceil(Math.abs(r - 255) * bolme - 9) + "px";
+    bole = 300 / r;
+    secilen.style.left =  Math.ceil(Math.abs(r - g) * bole - 9) + "px";
+  }
+  // g = b > r
+  if (g == b && g > r) {
+    mixer.value = 765;
+    mixer.style.setProperty("--color", "rgb(0,255,255)");
+    color.style.backgroundColor = "rgb(0,255,255)";
+    bolme = 300 / 255;
+    secilen.style.top = Math.ceil(Math.abs(g - 255) * bolme - 9) + "px";
+    bole = 300 / g;
+    secilen.style.left =  Math.ceil(Math.abs(g - r) * bole - 9) + "px";
+  }
+}
+
+// Rgb Changes
+ren.addEventListener("change", (event) => {
+  try {
+    hata = 0;
+    r = ren.value.split("(")[1].split(",")[0];
+    g = ren.value.split("(")[1].split(",")[1];
+    b = ren.value.split("(")[1].split(",")[2].split(")")[0];
+
+    if (r != parseInt(r, 10)) {r = parseInt(r, 10);}
+    if (g != parseInt(g, 10)) {g = parseInt(g, 10);}
+    if (b != parseInt(b, 10)) {b = parseInt(b, 10);}
+    if (r <= 0) {r = Math.abs(r);}
+    if (g <= 0) {g = Math.abs(g);}
+    if (b <= 0) {b = Math.abs(b);}
+    if (r > 255) {r = 255;}
+    if (g > 255) {g = 255;}
+    if (b > 255) {b = 255;}
+
+    rgbToHex(r, g, b);
+    hexToRgb();
+    r = ren.value.split("(")[1].split(",")[0];
+    g = ren.value.split("(")[1].split(",")[1];
+    b = ren.value.split("(")[1].split(",")[2].split(")")[0];
+    rgbToCmyk(r, g, b);
+
+    if (ran != 0) {
+      derece += 360;
+      kay.style.transform = "rotate(" + derece + "deg)";
+      kaydet.value = Object.values(words)[language][2];
+      kaydet.style.borderRadius= "0px";
+      ran = 0;
+    }
+  }
+  catch(err) {
+    if (ran != 1) {
+      derece += 360;
+      kay.style.transform = "rotate(" + derece + "deg)";
+      kaydet.value = Object.values(words)[language][3];
+      kaydet.style.borderRadius= "20px";
+      ran = 1;
+    }
+    hata = 1;
+    deg.value = Object.values(words)[language][6] + ": RGB";
+    cmyk.value = Object.values(words)[language][6] + ": RGB";
+    document.body.style.background = "linear-gradient(to right, rgb(255,0,0), rgb(255,255,0), rgb(0,255,0), rgb(0,255,255), rgb(0,0,255), rgb(255,0,255), rgb(255,0,0))";
+    mixer.style.setProperty("--color", "transparent");
+    secilen.style.background = "linear-gradient(to top, rgb(255,0,0), rgb(255,0,0), rgb(0,255,0), rgb(0,0,255), rgb(255,0,255), rgb(255,0,255))";
+    control();
+    message(Object.values(words)[language][6] + ": RGB");
+  }
+  time = setTimeout(() => {
+    kaydet.disabled = false;
+    kaydet.style.cursor = "pointer";
+  }, 200);
+});
+// Rgb Inputs
+ren.addEventListener("input", (event) => {
+  kaydet.disabled = true;
+  kaydet.style.cursor = "context-menu";
+});
+
+// Hex Changes
+function hexToRgb() {
+    toR = parseInt(deg.value.slice(1, 3), 16);
+    toG = parseInt(deg.value.slice(3, 5), 16);
+    toB = parseInt(deg.value.slice(5, 7), 16);
+
+    if (isNaN(toR) || isNaN(toG) || isNaN(toB)) {
+      if (ran != 1) {
+        derece += 360;
+        kay.style.transform = "rotate(" + derece + "deg)";
+        kaydet.value = Object.values(words)[language][3];
+        kaydet.style.borderRadius= "20px";
+        ran = 1;
+      }
+      hata = 1;
+      ren.value = Object.values(words)[language][6] + ": HEX";
+      cmyk.value = Object.values(words)[language][6] + ": HEX";
+      document.body.style.background = "linear-gradient(to right, rgb(255,0,0), rgb(255,255,0), rgb(0,255,0), rgb(0,255,255), rgb(0,0,255), rgb(255,0,255), rgb(255,0,0))";
+      mixer.style.setProperty("--color", "transparent");
+      secilen.style.background = "linear-gradient(to top, rgb(255,0,0), rgb(255,0,0), rgb(0,255,0), rgb(0,0,255), rgb(255,0,255), rgb(255,0,255))";
+      control();
+      message(Object.values(words)[language][6] + ": HEX");
+    }
+    else {
+      hata = 0;
+      if (deg.value[0] != "#") {
+        deg.value = "#" + deg.value;
+        toR = parseInt(deg.value.slice(1, 3), 16);
+        toG = parseInt(deg.value.slice(3, 5), 16);
+        toB = parseInt(deg.value.slice(5, 7), 16);
+      }
+
+      if (isNaN(toR) || isNaN(toG) || isNaN(toB)) {
+        if (ran != 1) {
+          derece += 360;
+          kay.style.transform = "rotate(" + derece + "deg)";
+          kaydet.value = Object.values(words)[language][3];
+          kaydet.style.borderRadius= "20px";
+          ran = 1;
+        }
+        hata = 1;
+        ren.value = Object.values(words)[language][6] + ": HEX";
+        cmyk.value = Object.values(words)[language][6] + ": HEX";
+        document.body.style.background = "linear-gradient(to right, rgb(255,0,0), rgb(255,255,0), rgb(0,255,0), rgb(0,255,255), rgb(0,0,255), rgb(255,0,255), rgb(255,0,0))";
+        mixer.style.setProperty("--color", "transparent");
+        secilen.style.background = "linear-gradient(to top, rgb(255,0,0), rgb(255,0,0), rgb(0,255,0), rgb(0,0,255), rgb(255,0,255), rgb(255,0,255))";
+        control();
+        message(Object.values(words)[language][6] + ": HEX");
+      }
+      else {
+        hata = 0;
+        ren.value = "rgb(" + toR + "," + toG + "," + toB + ")";
+        rgbToHex(toR, toG, toB);
+        rgbToCmyk(toR, toG, toB);
+        rgbToMixer(toR, toG, toB);
+        control();
+        document.body.style.background = ren.value;
+        secilen.style.background = ren.value;
+        if (ran != 0) {
+          derece += 360;
+          kay.style.transform = "rotate(" + derece + "deg)";
+          kaydet.value = Object.values(words)[language][2];
+          kaydet.style.borderRadius= "0px";
+          ran = 0;
+        }
+      }
+    }
+    time = setTimeout(() => {
+      kaydet.disabled = false;
+      kaydet.style.cursor = "pointer";
+    }, 200);
+}
+deg.addEventListener("change", hexToRgb);
+// Hex Inputs
+deg.addEventListener("input", (event) => {
+  kaydet.disabled = true;
+  kaydet.style.cursor = "context-menu";
+});
+
+// Cmyk Changes
+function cmykToRgb() {
+  try {
+    hata = 0;
+    c = cmyk.value.split(" ")[0].split("%")[0];
+    m = cmyk.value.split(" ")[1].split("%")[0];
+    y = cmyk.value.split(" ")[2].split("%")[0];
+    k = cmyk.value.split(" ")[3].split("%")[0];
+
+    if (c == "") {
+      c = 0;
+    }
+    if (m == "") {
+      m = 0;
+    }
+    if (y == "") {
+      y = 0;
+    }
+    if (k == "") {
+      k = 0;
+    }
+    if (isNaN(c) || isNaN(m) || isNaN(y) || isNaN(k)) {
+      alert("as");
+      if (ran != 1) {
+        derece += 360;
+        kay.style.transform = "rotate(" + derece + "deg)";
+        kaydet.value = Object.values(words)[language][3];
+        kaydet.style.borderRadius= "20px";
+        ran = 1;
+      }
+      hata = 1;
+      ren.value = Object.values(words)[language][6] + ": CMYK";
+      deg.value = Object.values(words)[language][6] + ": CMYK";
+      document.body.style.background = "linear-gradient(to right, rgb(255,0,0), rgb(255,255,0), rgb(0,255,0), rgb(0,255,255), rgb(0,0,255), rgb(255,0,255), rgb(255,0,0))";
+      mixer.style.setProperty("--color", "transparent");
+      secilen.style.background = "linear-gradient(to top, rgb(255,0,0), rgb(255,0,0), rgb(0,255,0), rgb(0,0,255), rgb(255,0,255), rgb(255,0,255))";
+      control();
+      message(Object.values(words)[language][6] + ": CMYK");
+    }
+    else {
+      hata = 0;
+      if (c != parseInt(c, 10)) {c = parseInt(c, 10);}
+      if (m != parseInt(m, 10)) {m = parseInt(m, 10);}
+      if (y != parseInt(y, 10)) {y = parseInt(y, 10);}
+      if (k != parseInt(k, 10)) {k = parseInt(k, 10);}
+      if (c <= 0) {c = Math.abs(c);}
+      if (m <= 0) {m = Math.abs(m);}
+      if (y <= 0) {y = Math.abs(y);}
+      if (k <= 0) {k = Math.abs(k);}
+      if (c > 100) {c = 100;}
+      if (m > 100) {m = 100;}
+      if (y > 100) {y = 100;}
+      if (k > 100) {k = 100;}
+
+      cmyk.value = c + "% " + m + "% " + y + "% " + k + "%";
+
+      c /= 100;
+      m /= 100;
+      y /= 100;
+      k /= 100;
+
+      r = Math.round(255 * (1 - c) * (1 - k));
+      g = Math.round(255 * (1 - m) * (1 - k));
+      b = Math.round(255 * (1 - y) * (1 - k));
+
+      ren.value = "rgb(" + r + "," + g + "," + b + ")";
+      rgbToHex(r, g, b);
+      rgbToMixer(r, g, b);
+      control();
+      document.body.style.background = ren.value;
+      secilen.style.background = ren.value;
+      if (ran != 0) {
+        derece += 360;
+        kay.style.transform = "rotate(" + derece + "deg)";
+        kaydet.value = Object.values(words)[language][2];
+        kaydet.style.borderRadius= "0px";
+        ran = 0;
+      }
+    }
+  }
+  catch(err) {
+    if (ran != 1) {
+      derece += 360;
+      kay.style.transform = "rotate(" + derece + "deg)";
+      kaydet.value = Object.values(words)[language][3];
+      kaydet.style.borderRadius= "20px";
+      ran = 1;
+    }
+    hata = 1;
+    ren.value = Object.values(words)[language][6] + ": CMYK";
+    deg.value = Object.values(words)[language][6] + ": CMYK";
+    document.body.style.background = "linear-gradient(to right, rgb(255,0,0), rgb(255,255,0), rgb(0,255,0), rgb(0,255,255), rgb(0,0,255), rgb(255,0,255), rgb(255,0,0))";
+    mixer.style.setProperty("--color", "transparent");
+    secilen.style.background = "linear-gradient(to top, rgb(255,0,0), rgb(255,0,0), rgb(0,255,0), rgb(0,0,255), rgb(255,0,255), rgb(255,0,255))";
+    control();
+    message(Object.values(words)[language][6] + ": CMYK");
+  }
+  time = setTimeout(() => {
+    kaydet.disabled = false;
+    kaydet.style.cursor = "pointer";
+  }, 200);
+}
+cmyk.addEventListener("change", cmykToRgb);
+// Cmyk Inputs
+cmyk.addEventListener("input", (event) => {
+  kaydet.disabled = true;
+  kaydet.style.cursor = "context-menu";
+});
+
+function rgbToHex(r, g, b) {
+  hex = "#" + ((1 << 24) + (r << 16) + (g << 8) + +b).toString(16).slice(1).toUpperCase();
+  deg.value = hex;
+}
+
+function rgbToCmyk(r, g, b) {
+  if (r == 0 && g == 0 && b == 0) {
+    c = 0;
+    m = 0;
+    y = 0;
+    k = 100;
+    cmyk.value = c + "% " + m + "% " + y + "% " + k + "%";
+  }
+  else {
+      c = 1 - (r / 255);
+      m = 1 - (g / 255);
+      y = 1 - (b / 255);
+      k = Math.min(c, Math.min(m, y));
+
+      c = Math.round((c - k) / (1 - k) * 100);
+      m = Math.round((m - k) / (1 - k) * 100);
+      y = Math.round((y - k) / (1 - k) * 100);
+      k = Math.round(k * 100);
+
+      cmyk.value = c + "% " + m + "% " + y + "% " + k + "%";
+  }
+}
+
+// Color Function
+function sec(event) {
+  poX = event.pageX-color.offsetLeft;
+  poY = event.pageY-color.offsetTop;
+  if (poX < 0) {
+    poX = 0;
+  }
+  if (poX > 300) {
+    poX = 300;
+  }
+  if (poY < 0) {
+    poY = 0;
+  }
+  if (poY > 300) {
+    poY = 300;
+  }
+  secilen.style.left = poX - 9 + "px";
+  secilen.style.top = poY - 9 + "px";
+
+  if (secilen.style.left == "" || secilen.style.top == "") {
+    secilen.style.left = "291px";
+    secilen.style.top = "-9px";
+  }
+
+  if (isNaN(poX) || isNaN(poY)) {
+    poX = parseInt(secilen.style.left.split("px")[0])+9;
+    poY = parseInt(secilen.style.top.split("px")[0])+9;
+  }
+
+  // Mixer Value Between 0-255
+  if (mixer.value >= 0 && mixer.value <= 255) {
+    r = 255;
+    g = parseInt(mixer.value);
+    b = 0;
+  }
+  // Mixer Value Between 256-510
+  if (mixer.value >= 256 && mixer.value < 511) {
+    a = mixer.value-255;
+    r = 255-a;
+    g = 255;
+    b = 0;
+  }
+  // Mixer Value Between 511-765
+  if (mixer.value >= 511 && mixer.value < 766) {
+    a = mixer.value-510;
+    r = 0;
+    g = 255;
+    b = a;
+  }
+  // Mixer Value Between 766-1020
+  if (mixer.value >= 766 && mixer.value < 1021) {
+    a = mixer.value-765;
+    r = 0;
+    g = 255-a;
+    b = 255;
+  }
+  // Mixer Value Between 1021-1275
+  if (mixer.value >= 1021 && mixer.value < 1276) {
+    a = mixer.value-1020;
+    r = a;
+    g = 0;
+    b = 255;
+  }
+  // Mixer Value Between 1276-1530
+  if (mixer.value >= 1276 && mixer.value < 1531) {
+    a = mixer.value-1275;
+    r = 255;
+    g = 0;
+    b = 255-a;
+  }
+  regebe = "rgb(" + r + "," + g + "," + b + ")";
+
+  mixer.style.setProperty("--color", regebe);
+  color.style.backgroundColor = regebe;
+
+  x = Math.floor(Math.abs(poX - 300));
+  y = Math.floor(Math.abs(poY));
+
+  cikarma = Math.floor(Math.abs(r - 255));
+  bolme = cikarma / 300;
+  r += Math.floor(x * bolme);
+  if (r > 255) {
+    r = 255;
+  }
+  bolme =  r / 300;
+  r -= Math.floor(y * bolme);
+
+  cikarma = Math.floor(Math.abs(g - 255));
+  bolme = cikarma / 300;
+  g += Math.floor(x * bolme);
+  if (g > 255) {
+    g = 255;
+  }
+  bolme =  g / 300;
+  g -= Math.floor(y * bolme);
+
+  cikarma = Math.floor(Math.abs(b - 255));
+  bolme = cikarma / 300;
+  b += Math.floor(x * bolme);
+  if (b > 255) {
+    b = 255;
+  }
+  bolme =  b / 300;
+  b -= Math.floor(y * bolme);
+
+  regebe = "rgb(" + r + "," + g + "," + b + ")";
+
+  secilen.style.background = regebe;
+  ren.value = regebe;
+  rgbToHex(r, g, b);
+  rgbToCmyk(r, g, b);
+  control();
+  document.body.style.background = regebe;
+
+  if (ran != 0) {
+    derece += 360;
+    kay.style.transform = "rotate(" + derece + "deg)";
+    kaydet.value = Object.values(words)[language][2];
+    kaydet.style.borderRadius= "0px";
+    ran = 0;
+  }
+  hata = 0;
+}
+
+function random() {
+  ranr = Math.floor(Math.random() * 256);
+  rang = Math.floor(Math.random() * 256);
+  ranb = Math.floor(Math.random() * 256);
+
+  var rgbt = "rgb(" + ranr + "," + rang + "," + ranb + ")";
+
+  ren.value = rgbt;
+  rgbToHex(ranr, rang, ranb);
+  rgbToCmyk(ranr, rang, ranb);
+  rgbToMixer(ranr, rang, ranb);
+  control();
+  document.body.style.background = rgbt;
+
+  derece += 360;
+  kay.style.transform = "rotate(" + derece + "deg)";
+  kaydet.value = Object.values(words)[language][2];
+  kaydet.style.borderRadius= "0px";
+  ran = 0;
+  hata = 0;
+}
+random();
+
+// Save Function
+function buton() {
+  if (ran == 0) {
+    if (hata == 0) {
+      div = document.createElement("div");
+      div.setAttribute("id", "div" + say);
+      div.setAttribute("class", "div");
+      div.style.background = ren.value;
+      div.style.order = "-" + say;
+      grid.appendChild(div);
+
+      pb = document.createElement("input");
+      pb.setAttribute("id", say);
+      pb.setAttribute("class", "del");
+      pb.type = "button";
+      pb.value = "X";
+      pb.onclick = function() {delet(this.id);}
+      div.appendChild(pb);
+
+      pr = document.createElement("input");
+      pr.setAttribute("id", "pr" + say);
+      pr.setAttribute("class", "p");
+      pr.readOnly = true;
+      pr.value = ren.value;
+      div.appendChild(pr);
+
+      ph = document.createElement("input");
+      ph.setAttribute("id", "ph" + say);
+      ph.setAttribute("class", "p");
+      ph.readOnly = true;
+      ph.value = deg.value;
+      div.appendChild(ph);
+
+      pc = document.createElement("input");
+      pc.setAttribute("id", "pc" + say);
+      pc.setAttribute("class", "p");
+      pc.readOnly = true;
+      pc.value = cmyk.value;
+      div.appendChild(pc);
+
+      pb = document.createElement("input");
+      pb.setAttribute("id", say);
+      pb.setAttribute("class", "pb");
+      pb.type = "button";
+      pb.value = Object.values(words)[language][4];
+      kaydet.value = Object.values(words)[language][3];
+      pb.onclick = function() {belirt(this.id);}
+      div.appendChild(pb);
+
+      say += 1;
+
+      derece += 360;
+      kay.style.transform = "rotate(" + derece + "deg)";
+      kaydet.style.borderRadius= "20px";
+      ran = 1;
+
+      message(Object.values(words)[language][5]);
+    }
+    else {
+      control();
+      message(Object.values(words)[language][6]);
+    }
+  }
+  else {
+    random();
+  }
+}
+
+// Change Button Save/Random
+function chan() {
+  if (ran == 0) {
+    derece += 360;
+    kay.style.transform = "rotate(" + derece + "deg)";
+    kaydet.value = Object.values(words)[language][3];
+    kaydet.style.borderRadius= "20px";
+    ran = 1;
+  }
+  else {
+    derece += 360;
+    kay.style.transform = "rotate(" + derece + "deg)";
+    kaydet.value = Object.values(words)[language][2];
+    kaydet.style.borderRadius= "0px";
+    ran = 0;
+  }
+}
+
+// View Function
+function belirt(n) {
+  if (ran != 1) {
+    derece += 360;
+    kay.style.transform = "rotate(" + derece + "deg)";
+    kaydet.value = Object.values(words)[language][3];
+    kaydet.style.borderRadius= "20px";
+    ran = 1;
+  }
+
+  var pri = document.getElementById('pr' + n);
+
+  r = pri.value.split("(")[1].split(",")[0];
+  g = pri.value.split("(")[1].split(",")[1];
+  b = pri.value.split("(")[1].split(",")[2].split(")")[0];
+
+  document.body.style.background = pri.value;
+  secilen.style.background = pri.value;
+  ren.value = pri.value;
+  deg.value = document.getElementById('ph' + n).value;
+  cmyk.value = document.getElementById('pc' + n).value;
+  rgbToMixer(r, g, b);
+  control();
+  hata = 0;
+}
+
+// Delete Saved
+function delet(n) {
+  document.getElementById('div' + n).style.display = "none";
+}
+
+function addFunc(element) {
+  if (ran != 0) {
+    derece += 360;
+    kay.style.transform = "rotate(" + derece + "deg)";
+    kaydet.value = Object.values(words)[language][2];
+    kaydet.style.borderRadius= "0px";
+    ran = 0;
+  }
+
+  regebe = element.style.backgroundColor.replaceAll(" ", "");
+  r = regebe.split("(")[1].split(",")[0];
+  g = regebe.split("(")[1].split(",")[1];
+  b = regebe.split("(")[1].split(",")[2].split(")")[0];
+
+  document.body.style.background = regebe;
+  secilen.style.background = regebe;
+  ren.value = regebe;
+  rgbToHex(r, g, b);
+  rgbToCmyk(r, g, b);
+  rgbToMixer(r, g, b);
+  control();
+  kopyala(element.innerHTML);
+  hata = 0;
+}
+
+function changeLang() {
+  language = langu.value;
+  // Title Language
+  document.title = Object.values(words)[language][1] + " | USTA";
+  // Button Save/Random Language
+  if (ran == 0) {
+    kaydet.value = Object.values(words)[language][2];
+  }
+  else {
+    kaydet.value = Object.values(words)[language][3];
+  }
+  // Detail Language
+  deta.innerHTML = "<u>" + Object.values(words)[language][15] + "</u>";
+  // Button View Language
+  pbut = document.querySelectorAll(".pb");
+  for (var i = 0; i < pbut.length; i++) {
+    pbut[i].value = Object.values(words)[language][4];
+  }
+  // Menu Language
+  tags = document.querySelectorAll(".tag");
+  tags[0].innerHTML = Object.values(words)[language][7];
+  tags[1].innerHTML = Object.values(words)[language][8];
+  tags[2].innerHTML = Object.values(words)[language][9];
+  ilk.innerHTML = Object.values(words)[language][10];
+  if (menuPage == 1) {
+    detay.innerHTML = Object.values(words)[language][11];
+  }
+  if (menuPage == 2) {
+    detay.innerHTML = Object.values(words)[language][12];
+  }
+  if (menuPage == 3) {
+    detay.innerHTML = "<a href='https://github.com/ustabeyzat/colorpicker' target='_blank'><u>" + Object.values(words)[language][1] + "</u></a><br><br>" + Object.values(words)[language][13] + "<br><br><a href='https://github.com/ustabeyzat' target='_blank'>" + Object.values(words)[language][14] + ": <u>Usta Beyzat</u></a>";
+  }
+}
+changeLang();
+
+function message(text) {
+  mesaj.innerHTML = text;
+  not.style.visibility = "visible";
+
+  clearTimeout(time);
+  time = setTimeout(() => {
+    not.style.visibility = "hidden";
+  }, 3000);
+}
+message(document.title);
+
+function menuFunc(text) {
+  if (menu.style.visibility != "visible") {
+    menu.style.visibility = "visible";
+    menu.style.left = "0px";
+  }
+  else {
+    menu.style.left = "-350px";
+    menu.style.visibility = "hidden";
+  }
+}
+// Hide Button Back and Show Main Menu
+function startMenu() {
+  ilk.style.display = "none";
+  detay.style.display = "none";
+
+  htmls = document.querySelectorAll(".htmls");
+  for (var i = 0; i < htmls.length; i++) {
+    htmls[i].style.display = "none";
+  }
+  webs = document.querySelectorAll(".webs");
+  for (var i = 0; i < webs.length; i++) {
+    webs[i].style.display = "none";
+  }
+
+  tags = document.querySelectorAll(".tag");
+  tags[0].style.display = "block";
+  tags[1].style.display = "block";
+  tags[2].style.display = "block";
+
+  menuPage = 0;
+}
+// Hide Main Menu and Show Button Back
+function endMenu() {
+  tags = document.querySelectorAll(".tag");
+  tags[0].style.display = "none";
+  tags[1].style.display = "none";
+  tags[2].style.display = "none";
+
+  ilk.style.display = "block";
+  detay.style.display = "block";
+}
+
+function colorMenu() {
+  endMenu(); // Show Button Back
+  menuPage = 1;
+  detay.innerHTML = Object.values(words)[language][11];
+  htmls = document.querySelectorAll(".htmls");
+  for (var i = 0; i < htmls.length; i++) {
+    htmls[i].style.display = "flex";
+  }
+}
+function webMenu() {
+  endMenu(); // Show Button Back
+  menuPage = 2;
+  detay.innerHTML = Object.values(words)[language][12];
+  webs = document.querySelectorAll(".webs");
+  for (var i = 0; i < webs.length; i++) {
+    webs[i].style.display = "flex";
+  }
+}
+function aboutMenu() {
+  endMenu(); // Show Button Back
+  menuPage = 3;
+  detay.innerHTML = "<a href='https://github.com/ustabeyzat/colorpicker' target='_blank'><u>" + Object.values(words)[language][1] + "</u></a><br><br>" + Object.values(words)[language][13] + "<br><br><a href='https://github.com/ustabeyzat' target='_blank'>" + Object.values(words)[language][14] + ": <u>Usta Beyzat</u></a>";
+}
+</script>
+</body>
+</html>
